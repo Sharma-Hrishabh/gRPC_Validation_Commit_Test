@@ -52,7 +52,6 @@ func TestCommit(t *testing.T) {
 		response, err := commitClient.SubmitRequest(ctx, &mb.ValidationResponse{
 			Msg:   "Message without validation",
 			MsgId: i,
-			ReturnValue: 1 ,
 		})
 
 		assert.Equal(t, err, nil)

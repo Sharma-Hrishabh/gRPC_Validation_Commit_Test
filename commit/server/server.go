@@ -29,15 +29,11 @@ func (vs *commitServer) SubmitRequest(ctx context.Context, crequest *mb.Validati
 
 	// INSERT CODE HERE
 
-	if crequest.ReturnValue==1 {
-		log.Println("Inside Failure")
-		return &mb.CommitResponse{
-			ReturnValue: mb.CommitResponse_FAILURE },nil
-	}
 
 	return &mb.CommitResponse{
 		ReturnValue: mb.CommitResponse_SUCCESS,
 	}, nil
+
 }
 
 func Main(host string, port int) {
