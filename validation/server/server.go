@@ -37,7 +37,7 @@ func (vs *validationServer) SubmitRequest(ctx context.Context, vrequest *mb.Vali
 
 	//encrypt the message with public key of Commit Server and make it msg id
 
-	publicKeyFile, err := os.Open("../../pkiCommit/public_key.pem")
+	publicKeyFile, err := os.Open("/home/hrishabh/go/src/daad/pkiCommit/public_key.pem")
 	if err != nil {
     fmt.Println(err)
     os.Exit(1)
@@ -57,7 +57,7 @@ func (vs *validationServer) SubmitRequest(ctx context.Context, vrequest *mb.Vali
 	    fmt.Println(err)
 	    os.Exit(1)
 	}
-	log.Println("Public Key : ", publicKeyImported)
+	// log.Println("Public Key : ", publicKeyImported)
 
 
 
