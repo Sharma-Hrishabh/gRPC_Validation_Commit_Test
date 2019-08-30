@@ -71,7 +71,7 @@ func TestCommit(t *testing.T) {
 
 		fmt.Println("*******")
 
-		// fmt.Println(validatedMsg.MsgId)
+		fmt.Println(validatedMsg.MsgId)
 
 
 		assert.Equal(t, err, nil)
