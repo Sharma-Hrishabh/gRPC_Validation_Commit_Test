@@ -250,9 +250,12 @@ func (vs *validationServer) SubmitRequest(ctx context.Context, vrequest *mb.Vali
 	sig := base64.StdEncoding.EncodeToString(signed)
 	fmt.Printf("Signature: %v\n", sig)
 
+	sig = sig+" "+toSign
 
 	fmt.Println(reflect.TypeOf(signed))
-	fmt.Println(signed)
+	log.Println(sig)
+ 
+
 
 	// parser, perr := loadPublicKey("public.pem")
 	// if perr != nil {

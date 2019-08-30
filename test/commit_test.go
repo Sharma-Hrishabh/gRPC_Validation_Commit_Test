@@ -54,6 +54,7 @@ func TestCommit(t *testing.T) {
 			MsgId: i,
 		})
 
+
 		assert.Equal(t, err, nil)
 
 		assert.Equal(t, response.ReturnValue, mb.CommitResponse_FAILURE)
@@ -71,7 +72,7 @@ func TestCommit(t *testing.T) {
 
 		fmt.Println("*******")
 
-		fmt.Println(validatedMsg.MsgId)
+		fmt.Println(validatedMsg.Msg)
 
 
 		assert.Equal(t, err, nil)

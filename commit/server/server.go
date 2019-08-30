@@ -18,6 +18,7 @@ import (
 	"encoding/base64"
 	"encoding/pem"
 	"errors"
+	"strings"
 )
 
 // struct to maintain the state
@@ -241,7 +242,8 @@ func (vs *commitServer) SubmitRequest(ctx context.Context, crequest *mb.Validati
 	// }	
 
 
-	toSign := "Sample message"
+	// toSign := "Sample message"
+
 
 	parser, perr := loadPublicKey("public.pem")
 	if perr != nil {
@@ -250,12 +252,24 @@ func (vs *commitServer) SubmitRequest(ctx context.Context, crequest *mb.Validati
 	
 	// fmt.Println([]uint8(toSign))
 
-  	signed, err := base64.StdEncoding.DecodeString(crequest.Msg)
+	response := crequest.Msg
+	r := strings.Split(response," ")
+	signedMsg,toSign := r[0],r[1]
 
+	fmt.Println("$$$$$$")
+
+	fmt.Println(signedMsg)
+	fmt.Println(toSign)
+	fmt.Println("$$$$$$")
+
+  	signed, err := base64.StdEncoding.DecodeString(signedMsg)
+  	toSignDecoded, err := base64.StdEncoding.DecodeString(toSign)
+
+  	log.Println("***********")
 	log.Println(signed)
 
 	
-	err = parser.Unsign([]byte(toSign),signed)
+	err = parser.Unsign(toSignDecoded,signed)
 	if err != nil {
 		fmt.Errorf("could not sign request: %v", err)
 
