@@ -18,6 +18,8 @@ import (
     "os"
     "reflect"
 	// "strconv"
+	"unsafe"
+	// "bytes"
 
 )
 
@@ -30,7 +32,11 @@ func NewValidationServer() *validationServer {
 	return &validationServer{}
 }
 
-
+func BytesToString(b []byte) string {
+    bh := (*reflect.SliceHeader)(unsafe.Pointer(&b))
+    sh := reflect.StringHeader{bh.Data, bh.Len}
+    return *(*string)(unsafe.Pointer(&sh))
+}
 
 
 // Implementation of the ValidationServer.SubmitRequest() RPC call
@@ -98,8 +104,9 @@ func (vs *validationServer) SubmitRequest(ctx context.Context, vrequest *mb.Vali
 	    os.Exit(1)
 	}
 	fmt.Printf("PSS Signature : %x\n", signature)
-	sig := string([]byte(signature[:]))
-	// sig := B2S(signature)
+	// sig := string([]byte(signature[:]))
+	sig := BytesToString(signature)
+	// sig := string(signature)
 	fmt.Printf("PSS Signature : %s\n", reflect.TypeOf(sig))
 	fmt.Printf("PSS Signature : %s\n", sig)
 	newStr := []uint8(sig)
@@ -108,7 +115,7 @@ func (vs *validationServer) SubmitRequest(ctx context.Context, vrequest *mb.Vali
 
 
 	return &mb.ValidationResponse{
-		Msg:         string(signature),
+		Msg:         sig,
 		MsgId:       vrequest.MsgId,
 		ReturnValue: mb.ValidationResponse_SUCCESS,
 	}, nil
