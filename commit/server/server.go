@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"net"
+	"regexp"
 
 	mb "daad/protos/master"
 
@@ -253,7 +254,8 @@ func (vs *commitServer) SubmitRequest(ctx context.Context, crequest *mb.Validati
 	// fmt.Println([]uint8(toSign))
 
 	response := crequest.Msg
-	r := strings.Split(response," ")
+	// r := strings.SplitN(response," ",1)
+	r := regexp.MustCompile(`r`)        
 	signedMsg,toSign := r[0],r[1]
 
 	fmt.Println("$$$$$$")
