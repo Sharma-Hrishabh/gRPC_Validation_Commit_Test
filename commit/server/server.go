@@ -9,6 +9,17 @@ import (
 	mb "daad/protos/master"
 
 	"google.golang.org/grpc"
+
+
+	"google.golang.org/grpc"
+    "bufio"
+  	"crypto/rsa"
+   	"crypto/rand"
+    "crypto/x509"
+	"crypto/sha256"
+    "encoding/pem"
+    "os"
+
 )
 
 // struct to maintain the state
@@ -24,7 +35,6 @@ func NewCommitServer() *commitServer {
 func (vs *commitServer) SubmitRequest(ctx context.Context, crequest *mb.ValidationResponse) (*mb.CommitResponse, error) {
 	// DO NOT CHANGE THIS PRINTF STATEMENT
 
-	log.Println(crequest.ReturnValue)
 	log.Printf("Committed[MSGID:%d, MSG:%s]", crequest.MsgId, crequest.Msg)
 
 	// INSERT CODE HERE

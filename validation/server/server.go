@@ -9,6 +9,16 @@ import (
 	mb "daad/protos/master"
 
 	"google.golang.org/grpc"
+    "bufio"
+  	"crypto/rsa"
+   	"crypto/rand"
+    "crypto/x509"
+	"crypto/sha256"
+    "encoding/pem"
+    "os"
+
+	"strconv"
+
 )
 
 // struct to maintain the state
@@ -25,12 +35,55 @@ func (vs *validationServer) SubmitRequest(ctx context.Context, vrequest *mb.Vali
 	// DO NOT CHANGE THIS PRINTF STATEMENT
 	log.Printf("Validated [MSGID:%d, MSG:%s]", vrequest.MsgId, vrequest.Msg)
 
+	//encrypt the message with public key of Commit Server and make it msg id
+
+	publicKeyFile, err := os.Open("../../pkiCommit/public_key.pem")
+	if err != nil {
+    fmt.Println(err)
+    os.Exit(1)
+	}
+
+
+	pemfileinfoPublic, _ := publicKeyFile.Stat()
+	var sizePublic int64 = pemfileinfoPublic.Size()
+	pembytesPublic := make([]byte, sizePublic)
+	bufferPublic := bufio.NewReader(publicKeyFile)
+	_, err = bufferPublic.Read(pembytesPublic)
+	dataPublic, _ := pem.Decode([]byte(pembytesPublic))
+	publicKeyFile.Close()
+
+	publicKeyImported, err := x509.ParsePKCS1PublicKey(dataPublic.Bytes)
+	if err != nil {
+	    fmt.Println(err)
+	    os.Exit(1)
+	}
+	log.Println("Public Key : ", publicKeyImported)
+
+
+
+	message := []byte(vrequest.Msg)
+	label := []byte("")
+	hash := sha256.New()
+	ciphertext, err := rsa.EncryptOAEP(
+    hash, 
+    rand.Reader, 
+    publicKeyImported, 
+    message, 
+    label,
+	)
+	if err != nil {
+    fmt.Println(err)
+    os.Exit(1)
+	}
+
+	id,err := strconv.ParseInt(string(ciphertext),10,64)	
 
 	return &mb.ValidationResponse{
 		Msg:         vrequest.Msg,
-		MsgId:       vrequest.MsgId,
+		MsgId:       id,
 		ReturnValue: mb.ValidationResponse_SUCCESS,
 	}, nil
+
 }
 
 func Main(host string, port int) {
