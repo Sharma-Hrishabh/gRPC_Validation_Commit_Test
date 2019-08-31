@@ -28,7 +28,7 @@ Things that are not allowed:
 
 **Solution Approach:**
 
-The situation can be handled by taking into account the Public-Key Infrastructure.
+The situation can be handled by taking into account the concept of Public and Private Key-Pair.
 
 As the message needs to be validated first before being requested to be committed. So the commit server should somehow needs to know or verify that if a message is directly coming to it without validation or after proper validation.
 
