@@ -34,4 +34,9 @@ As the message needs to be validated first before being requested to be committe
 
 So to handle the situation, the validation server can sign the message with its private key, which it receives for validation and then the original message can be appended to signature with whitespace between them so that later commit server can separate the original plaintext message and the signature. (The message is appended as we can’t modify protos but need to transfer the signature as well as plain text)
 
-After wards, when commit server will receive the request after validation of message, then the message itself has the signature and the original message and commit server can verify if the message is actually coming from the validation server. If the verification fails, like in the case of the non-validated message, then the Return Value is FAILURE.
+After wards, when commit server will receive the request after validation of message, then the message itself has the signature and the original message and commit server can verify it using the public key of the validation server,  if the message is actually coming from the validation server. If the verification fails, like in the case of the non-validated message, then the Return Value is FAILURE.
+
+
+N.B:- 
+1. Folders 'pkiCommit' and 'pkiValidator' contains the code form key-pair genration and also the already generated key pairs. Ignore the pkiCommit folder because as per my apprroach, only jey pair of validation server is required.
+2. They keys are being loaded in 'server.go' of both Validation & Commit Server using an absolute. So, **don't forgert to change the paths for keys**
