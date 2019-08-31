@@ -38,5 +38,5 @@ After wards, when commit server will receive the request after validation of mes
 
 
 N.B:- 
-1. Folders 'pkiCommit' and 'pkiValidator' contains the code form key-pair genration and also the already generated key pairs. Ignore the pkiCommit folder because as per my apprroach, only jey pair of validation server is required.
-2. They keys are being loaded in 'server.go' of both Validation & Commit Server using an absolute. So, **don't forgert to change the paths for keys**
+1. Folders 'pkiCommit' and 'pkiValidator' contains the code for key-pair genration and also the already generated key pairs. Ignore the pkiCommit folder because as per my approach, only key pair of validation server is required.
+2. The keys are being loaded in 'server.go' of both Validation & Commit Server using an absolute path. So, **don't forget to change the paths of the keys of validation server**
