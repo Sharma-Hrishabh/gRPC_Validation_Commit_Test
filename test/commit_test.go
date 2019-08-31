@@ -12,7 +12,6 @@ import (
 	"gotest.tools/assert"
 	"testing"
 	"time"
-	"log"
 )
 
 var (
@@ -55,9 +54,6 @@ func TestCommit(t *testing.T) {
 			MsgId: i,
 		})
 
-		log.Println("$$$$$$$$$$")
-		log.Println(response.ReturnValue)
-		log.Println("$$$$$$$$$$")
 
 
 		assert.Equal(t, err, nil)
@@ -84,9 +80,6 @@ func TestCommit(t *testing.T) {
 
 		response, err := commitClient.SubmitRequest(cctx, validatedMsg)
 
-		fmt.Println("*******")
-		fmt.Println(response.ReturnValue)
-		fmt.Println("*******")
 
 
 		assert.Equal(t, err, nil)

@@ -61,7 +61,7 @@ func (vs *commitServer) SubmitRequest(ctx context.Context, crequest *mb.Validati
 
 	// INSERT CODE HERE
 
-	//loading private key
+	//loading public key of validation server 
 
 	publicKeyFile, err := os.Open("/home/hrishabh/go/src/new/pkiValidator/public_key.pem")
 	if err != nil {
@@ -86,27 +86,7 @@ func (vs *commitServer) SubmitRequest(ctx context.Context, crequest *mb.Validati
 	// log.Println("Public Key : ", publicKeyImported)
 
 
-
-
-	// ciphertext := []byte(strconv.Itoa(int(crequest.MsgId)))
-	// // label := []byte("")
-	// // hash := sha256.New()
-
-	// // plainText, err := rsa.DecryptOAEP(
- // //    hash, 
- // //    rand.Reader, 
- // //    privateKeyImported, 
- // //    ciphertext, 
- // //    label,
-	// // )
-	// // if err != nil {
- // //    fmt.Println(err)
- // //    os.Exit(1)
-	// // }
-
-
-	// plainText := DecryptWithPrivateKey(ciphertext,privateKeyImported)
-
+	//seperating signature with the msg
 	splt_string := strings.Split(crequest.Msg, " ")
 	fmt.Printf("Encoded String: %s\n", splt_string[0])
 
@@ -124,6 +104,9 @@ func (vs *commitServer) SubmitRequest(ctx context.Context, crequest *mb.Validati
 
 	org_msg := strings.Join(splt_string[1:], " ")
 	fmt.Printf("Original String: %s\n", org_msg)
+
+
+	//verifying the signature using public key of validation server
 
 	var opts rsa.PSSOptions
 	opts.SaltLength = rsa.PSSSaltLengthAuto // for simple example

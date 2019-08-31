@@ -45,8 +45,9 @@ func (vs *validationServer) SubmitRequest(ctx context.Context, vrequest *mb.Vali
 	// DO NOT CHANGE THIS PRINTF STATEMENT
 	log.Printf("Validated [MSGID:%d, MSG:%s]", vrequest.MsgId, vrequest.Msg)
 
-	//encrypt the message with public key of Commit Server and make it msg id
+	//Approach-sign the message with private key of Validation Server
 
+	//loading private key of validation server
 	privateKeyFile, err := os.Open("/home/hrishabh/go/src/new/pkiValidator/private_key.pem")
 	if err != nil {
 	    fmt.Println(err)
@@ -69,7 +70,7 @@ func (vs *validationServer) SubmitRequest(ctx context.Context, vrequest *mb.Vali
 	}
 	// log.Println("Private Key : ", privateKeyImported)
 
-
+	//generating signature
 
 	var opts rsa.PSSOptions
 	opts.SaltLength = rsa.PSSSaltLengthAuto // for simple example
@@ -99,6 +100,9 @@ func (vs *validationServer) SubmitRequest(ctx context.Context, vrequest *mb.Vali
 
 	// tmp, _ := hex.DecodeString(sig)
 	// fmt.Println(reflect.DeepEqual(tmp, signature))
+
+
+	//appending msg to the signature
 
 	msg_to_send := sig + " " + vrequest.Msg
 
