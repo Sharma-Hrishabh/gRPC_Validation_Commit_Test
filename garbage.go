@@ -18,7 +18,7 @@ func main() {
 		fmt.Errorf("signer is damaged: %v", err)
 	}
 
-	toSign := "date: Thu, 05 Jan 2012 21:31:40 GMT"
+	toSign := "date: Thu, 30 Aug 2019 21:31:40 GMT"
 
 	signed, err := signer.Sign([]byte(toSign))
 	if err != nil {
