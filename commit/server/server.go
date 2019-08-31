@@ -1,7 +1,7 @@
 package server
 
 import (
-	"strings"
+	// "strings"
 	"context"
 	"fmt"
 	"log"
@@ -87,10 +87,10 @@ func (vs *commitServer) SubmitRequest(ctx context.Context, crequest *mb.Validati
 
 
 	//seperating signature with the msg
-	splt_string := strings.Split(crequest.Msg, " ")
-	fmt.Printf("Encoded String: %s\n", splt_string[0])
+	// splt_string := strings.Split(crequest.Msg, " ")
+	// fmt.Printf("Encoded String: %s\n", splt_string[0])
 
-	enc_msg, err := hex.DecodeString(splt_string[0])
+	enc_msg, err := hex.DecodeString(string(crequest.Signature))
 	if err != nil {
 		log.Println("Error in decode string")
 
@@ -102,8 +102,8 @@ func (vs *commitServer) SubmitRequest(ctx context.Context, crequest *mb.Validati
 		}, nil
 	}
 
-	org_msg := strings.Join(splt_string[1:], " ")
-	fmt.Printf("Original String: %s\n", org_msg)
+	// org_msg := strings.Join(splt_string[1:], " ")
+	// fmt.Printf("Original String: %s\n", org_msg)
 
 
 	//verifying the signature using public key of validation server
@@ -111,7 +111,7 @@ func (vs *commitServer) SubmitRequest(ctx context.Context, crequest *mb.Validati
 	var opts rsa.PSSOptions
 	opts.SaltLength = rsa.PSSSaltLengthAuto // for simple example
 	newhash := crypto.SHA256
-	PSSmessage := []byte(org_msg)
+	PSSmessage := []byte(crequest.Msg)
 	pssh := newhash.New()
 	pssh.Write(PSSmessage)
 	hashed := pssh.Sum(nil)

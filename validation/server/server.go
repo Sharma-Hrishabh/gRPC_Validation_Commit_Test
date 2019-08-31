@@ -98,18 +98,20 @@ func (vs *validationServer) SubmitRequest(ctx context.Context, vrequest *mb.Vali
 	sig := hex.EncodeToString(signature)
 	fmt.Printf("sig: %s\n", sig)
 
+	
 	// tmp, _ := hex.DecodeString(sig)
 	// fmt.Println(reflect.DeepEqual(tmp, signature))
 
 
 	//appending msg to the signature
 
-	msg_to_send := sig + " " + vrequest.Msg
+	// msg_to_send := sig + " " + vrequest.Msg
 
 	return &mb.ValidationResponse{
-		Msg:         msg_to_send,
+		Msg:         vrequest.Msg,
 		MsgId:       vrequest.MsgId,
 		ReturnValue: mb.ValidationResponse_SUCCESS,
+		Signature: []byte(sig),
 	}, nil
 
 }
