@@ -4,8 +4,6 @@
 
 **Problem Statement:-**
 
-  
-
 A sample scenario where the tests fire some RPC calls to the two RPC servers ValidationServer and CommitServer. The ValidationServer is responsible for validating the incoming requests. CommitServer simulates the commit of the message.
 
   
